@@ -128,7 +128,9 @@ exports.User = void 0;
 var User = function () {
   //data property is made private so that it cannot be accessed outside the class
   function User(data) {
-    this.data = data;
+    this.data = data; //events property will be an object with a string as its key and its associated value to be an array of callback functions
+
+    this.events = {};
   }
 
   User.prototype.get = function (propName) {
@@ -139,6 +141,14 @@ var User = function () {
     //Object.assign takes the first parameter which is the current object property on the User class
     // It replaces the first parameter with an object property in the second parameter
     Object.assign(this.data, update);
+  }; //In this case, second parameter is a callback (defined by type alias above) which takes no parameters and returns nothing
+
+
+  User.prototype.on = function (eventName, callback) {
+    //handlers will be either an array of callback functions or an empty array
+    var handlers = this.events[eventName] || [];
+    handlers.push(callback);
+    this.events[eventName] = handlers;
   };
 
   return User;
@@ -158,11 +168,9 @@ var user = new User_1.User({
   name: 'myname',
   age: 20
 });
-user.set({
-  age: 9999
-});
-console.log(user.get('name'));
-console.log(user.get('age'));
+user.on('change', function () {});
+user.on('change', function () {});
+console.log(user);
 },{"./models/User":"src/models/User.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -191,7 +199,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52191" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62092" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
