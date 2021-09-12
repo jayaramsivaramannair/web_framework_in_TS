@@ -60,4 +60,14 @@ export class User {
       this.set(response.data);
     })
   }
+
+  save(): void {
+    const id = this.get('id')
+    //If the user already exists then simply update the user by making a put request
+    if(id) {
+      axios.put(`http://localhost:3000/users/${id}`, this.data)
+    } else {
+      axios.post('http://localhost:3000/users', this.data);
+    }
+  }
 }
