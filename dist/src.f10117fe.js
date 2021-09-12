@@ -135,6 +135,12 @@ var User = function () {
     return this.data[propName];
   };
 
+  User.prototype.set = function (update) {
+    //Object.assign takes the first parameter which is the current object property on the User class
+    // It replaces the first parameter with an object property in the second parameter
+    Object.assign(this.data, update);
+  };
+
   return User;
 }();
 
@@ -151,6 +157,9 @@ var User_1 = require("./models/User");
 var user = new User_1.User({
   name: 'myname',
   age: 20
+});
+user.set({
+  age: 9999
 });
 console.log(user.get('name'));
 console.log(user.get('age'));
