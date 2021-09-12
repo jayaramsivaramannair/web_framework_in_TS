@@ -34,4 +34,19 @@ export class User {
     this.events[eventName] = handlers;
 
   }
+
+
+  trigger(eventName: string) : void {
+    const handlers = this.events[eventName];
+
+    //check if handlers are associated with an event or not
+    if(!handlers || handlers.length == 0) {
+      return;
+    }
+
+    //loop through each handler in the array and invoke it
+    handlers.forEach(callback => {
+      callback();
+    })
+  }
 }
