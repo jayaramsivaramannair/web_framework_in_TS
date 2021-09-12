@@ -1,0 +1,12 @@
+{
+  "name": "web_framework_in_TS",
+  "version": "1.0.0",
+  "description": "##### This project uses all the key features of TypeScript to build a web framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
