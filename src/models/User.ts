@@ -1,6 +1,10 @@
+import axios, {AxiosResponse} from 'axios';
+
+
 //Interface is used to define types
 interface UserProps {
   //name and age property in this interface are made optional with use of a '?'
+  id?: number;
   name?: string;
   age?: number;
 }
@@ -47,6 +51,13 @@ export class User {
     //loop through each handler in the array and invoke it
     handlers.forEach(callback => {
       callback();
+    })
+  }
+
+  fetch(): void {
+    axios.get(`http://localhost:3000/users/${this.get('id')}`)
+    .then((response: AxiosResponse): void => {
+      this.set(response.data);
     })
   }
 }
