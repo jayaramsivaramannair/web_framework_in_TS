@@ -2261,9 +2261,7 @@ var axios_1 = __importDefault(require("axios"));
 var User = function () {
   //data property is made private so that it cannot be accessed outside the class
   function User(data) {
-    this.data = data; //events property will be an object with a string as its key and its associated value to be an array of callback functions
-
-    this.events = {};
+    this.data = data;
   }
 
   User.prototype.get = function (propName) {
@@ -2274,27 +2272,6 @@ var User = function () {
     //Object.assign takes the first parameter which is the current object property on the User class
     // It replaces the first parameter with an object property in the second parameter
     Object.assign(this.data, update);
-  }; //In this case, second parameter is a callback (defined by type alias above) which takes no parameters and returns nothing
-
-
-  User.prototype.on = function (eventName, callback) {
-    //handlers will be either an array of callback functions or an empty array
-    var handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  };
-
-  User.prototype.trigger = function (eventName) {
-    var handlers = this.events[eventName]; //check if handlers are associated with an event or not
-
-    if (!handlers || handlers.length == 0) {
-      return;
-    } //loop through each handler in the array and invoke it
-
-
-    handlers.forEach(function (callback) {
-      callback();
-    });
   };
 
   User.prototype.fetch = function () {
