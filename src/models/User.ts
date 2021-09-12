@@ -1,5 +1,6 @@
 import {Eventing} from './Eventing';
 import {Sync} from './Sync';
+import {Attributes} from './Attributes';
 
 
 //Interface is used to define types
@@ -16,18 +17,12 @@ export class User {
   public events: Eventing = new Eventing();
 
   public sync: Sync<UserProps> = new Sync<UserProps>(rootUrl);
-  
-  //data property is made private so that it cannot be accessed outside the class
-  constructor(private data: UserProps) {}
 
-  
-  get(propName: string): (string | number) {
-    return this.data[propName]
+  public attributes: Attributes<UserProps>;
+
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs);
   }
 
-  set(update: UserProps) : void {
-    //Object.assign takes the first parameter which is the current object property on the User class
-    // It replaces the first parameter with an object property in the second parameter
-    Object.assign(this.data, update);
-  }
+
 }
