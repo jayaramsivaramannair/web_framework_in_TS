@@ -24,5 +24,18 @@ export class User {
     this.attributes = new Attributes<UserProps>(attrs);
   }
 
+  get on() {
+    //Return a reference to the 'on' method available on an instance of Events class
+    return this.events.on;
+  }
 
+  get trigger() {
+    // Returns a reference to the 'trigger' method available on an instance of Events class
+    return this.events.trigger;
+  }
+
+  get get() {
+    // Returns a reference to the 'get' method available on an instance of attributes class
+    return this.attributes.get;
+  }
 }

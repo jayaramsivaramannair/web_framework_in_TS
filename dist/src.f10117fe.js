@@ -127,30 +127,33 @@ exports.Eventing = void 0;
 
 var Eventing = function () {
   function Eventing() {
-    //events property will be an object with a string as its key and its associated value to be an array of callback functions
-    this.events = {};
-  } //In this case, second parameter is a callback (defined by type alias above) which takes no parameters and returns nothing
+    var _this = this; //events property will be an object with a string as its key and its associated value to be an array of callback functions
 
 
-  Eventing.prototype.on = function (eventName, callback) {
-    //handlers will be either an array of callback functions or an empty array
-    var handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  };
+    this.events = {}; //In this case, second parameter is a callback (defined by type alias above) which takes no parameters and returns nothing
+    //Important Note: Try to use Arrow Functions even when definiing methods inside a class as below
 
-  Eventing.prototype.trigger = function (eventName) {
-    var handlers = this.events[eventName]; //check if handlers are associated with an event or not
-
-    if (!handlers || handlers.length == 0) {
-      return;
-    } //loop through each handler in the array and invoke it
+    this.on = function (eventName, callback) {
+      //handlers will be either an array of callback functions or an empty array
+      var handlers = _this.events[eventName] || [];
+      handlers.push(callback);
+      _this.events[eventName] = handlers;
+    }; //Important Note: Try to use Arrow Functions even when definiing methods inside a class as below
 
 
-    handlers.forEach(function (callback) {
-      callback();
-    });
-  };
+    this.trigger = function (eventName) {
+      var handlers = _this.events[eventName]; //check if handlers are associated with an event or not
+
+      if (!handlers || handlers.length == 0) {
+        return;
+      } //loop through each handler in the array and invoke it
+
+
+      handlers.forEach(function (callback) {
+        callback();
+      });
+    };
+  }
 
   return Eventing;
 }();
@@ -2333,13 +2336,15 @@ exports.Attributes = void 0;
 var Attributes = function () {
   //data property is made private so that it cannot be accessed outside the class
   function Attributes(data) {
-    this.data = data;
-  } //K extends keyof T constraints the 'key' value which is passed as a parameter
+    var _this = this;
 
+    this.data = data; //K extends keyof T constraints the 'key' value which is passed as a parameter
+    //Important Note: Try to use Arrow Functions even when definiing methods inside a class as below
 
-  Attributes.prototype.get = function (key) {
-    return this.data[key];
-  };
+    this.get = function (key) {
+      return _this.data[key];
+    };
+  }
 
   Attributes.prototype.set = function (update) {
     //Object.assign takes the first parameter which is the current object property on the User class
@@ -2374,6 +2379,30 @@ var User = function () {
     this.attributes = new Attributes_1.Attributes(attrs);
   }
 
+  Object.defineProperty(User.prototype, "on", {
+    get: function get() {
+      //Return a reference to the 'on' method available on an instance of Events class
+      return this.events.on;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "trigger", {
+    get: function get() {
+      // Returns a reference to the 'trigger' method available on an instance of Events class
+      return this.events.trigger;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "get", {
+    get: function get() {
+      // Returns a reference to the 'get' method available on an instance of attributes class
+      return this.attributes.get;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return User;
 }();
 
@@ -2391,10 +2420,11 @@ var user = new User_1.User({
   name: 'new record',
   age: 45
 });
-user.events.on('change', function () {
-  console.log('change!');
+console.log(user.get('name'));
+user.on('change', function () {
+  console.log('User was changed');
 });
-user.events.trigger('change');
+user.trigger('change');
 },{"./models/User":"src/models/User.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -2423,7 +2453,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50643" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63682" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

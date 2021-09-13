@@ -5,7 +5,8 @@ export class Attributes<T> {
 
   
   //K extends keyof T constraints the 'key' value which is passed as a parameter
-  get<K extends keyof T>(key: K): T[K] {
+  //Important Note: Try to use Arrow Functions even when definiing methods inside a class as below
+  get = <K extends keyof T>(key: K): T[K] => {
     return this.data[key]
   }
 
