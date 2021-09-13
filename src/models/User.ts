@@ -38,4 +38,10 @@ export class User {
     // Returns a reference to the 'get' method available on an instance of attributes class
     return this.attributes.get;
   }
+
+  set(update: UserProps) : void {
+    this.attributes.set(update)
+    //When the properties of a user instance are updated or initialized, a change event will also be triggered
+    this.events.trigger('change')
+  }
 }
