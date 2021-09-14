@@ -1,9 +1,7 @@
-import {AxiosResponse} from 'axios';
-
-import {Eventing} from './Eventing';
-import {Sync} from './Sync';
-import {Attributes} from './Attributes';
-
+import {Model} from './Model'
+import {Attributes} from './Attributes'
+import {ApiSync} from './ApiSync'
+import {Eventing} from './Eventing'
 
 //Interface is used to define types
 export interface UserProps {
@@ -15,59 +13,12 @@ export interface UserProps {
 
 const rootUrl = 'http://localhost:3000/users';
 
-export class User {
-  public events: Eventing = new Eventing();
-
-  public sync: Sync<UserProps> = new Sync<UserProps>(rootUrl);
-
-  public attributes: Attributes<UserProps>;
-
-  constructor(attrs: UserProps) {
-    this.attributes = new Attributes<UserProps>(attrs);
-  }
-
-  get on() {
-    //Return a reference to the 'on' method available on an instance of Events class
-    return this.events.on;
-  }
-
-  get trigger() {
-    // Returns a reference to the 'trigger' method available on an instance of Events class
-    return this.events.trigger;
-  }
-
-  get get() {
-    // Returns a reference to the 'get' method available on an instance of attributes class
-    return this.attributes.get;
-  }
-
-  set(update: UserProps) : void {
-    this.attributes.set(update)
-    //When the properties of a user instance are updated or initialized, a change event will also be triggered
-    this.events.trigger('change')
-  }
-
-  fetch() : void {
-    const id = this.attributes.get('id')
-
-    //if id is not a number then the user does not exist on the backend
-    if(typeof id!== 'number') {
-      throw new Error('Cannot fetch without an id');
-    }
-
-    this.sync.fetch(id).then((response: AxiosResponse) : void => {
-      //In this case, set method from the User class is invoked since we want to change event to trigger as well
-      this.set(response.data);
-    });
-  }
-
-  save(): void {
-    this.sync.save(this.attributes.getAll())
-      .then((response: AxiosResponse) : void => {
-        this.trigger('save');
-      })
-      .catch(() => {
-        this.trigger('error');
-      })
+export class User extends Model<UserProps> {
+  static buildUser(attrs: UserProps) : User {
+    return new User(
+      new Attributes<UserProps>(attrs),
+      new Eventing(),
+      new ApiSync<UserProps>(rootUrl)
+    )
   }
 }

@@ -8,7 +8,7 @@ interface HasId {
 
 
 //T extends HasId suggests that any object which Class Sync is equipped to handle will have an id property
-export class Sync<T extends HasId> {
+export class ApiSync<T extends HasId> {
   constructor(public rootUrl: string) {}
 
   fetch(id: number): AxiosPromise {
