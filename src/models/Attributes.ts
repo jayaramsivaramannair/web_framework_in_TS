@@ -15,4 +15,8 @@ export class Attributes<T> {
     // It replaces the first parameter with an object property in the second parameter
     Object.assign(this.data, update);
   }
+
+  getAll() : T {
+    return this.data;
+  }
 }
