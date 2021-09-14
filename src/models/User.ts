@@ -1,3 +1,5 @@
+import {AxiosResponse} from 'axios';
+
 import {Eventing} from './Eventing';
 import {Sync} from './Sync';
 import {Attributes} from './Attributes';
@@ -43,5 +45,19 @@ export class User {
     this.attributes.set(update)
     //When the properties of a user instance are updated or initialized, a change event will also be triggered
     this.events.trigger('change')
+  }
+
+  fetch() : void {
+    const id = this.attributes.get('id')
+
+    //if id is not a number then the user does not exist on the backend
+    if(typeof id!== 'number') {
+      throw new Error('Cannot fetch without an id');
+    }
+
+    this.sync.fetch(id).then((response: AxiosResponse) : void => {
+      //In this case, set method from the User class is invoked since we want to change event to trigger as well
+      this.set(response.data);
+    });
   }
 }

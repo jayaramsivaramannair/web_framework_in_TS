@@ -2410,6 +2410,21 @@ var User = function () {
     this.events.trigger('change');
   };
 
+  User.prototype.fetch = function () {
+    var _this = this;
+
+    var id = this.attributes.get('id'); //if id is not a number then the user does not exist on the backend
+
+    if (typeof id !== 'number') {
+      throw new Error('Cannot fetch without an id');
+    }
+
+    this.sync.fetch(id).then(function (response) {
+      //In this case, set method from the User class is invoked since we want to change event to trigger as well
+      _this.set(response.data);
+    });
+  };
+
   return User;
 }();
 
@@ -2424,16 +2439,12 @@ Object.defineProperty(exports, "__esModule", {
 var User_1 = require("./models/User");
 
 var user = new User_1.User({
-  name: 'new record',
-  age: 45
+  id: 1
 });
-console.log(user.get('name'));
 user.on('change', function () {
-  console.log('User was changed');
+  console.log(user);
 });
-user.set({
-  name: 'New name'
-});
+user.fetch();
 },{"./models/User":"src/models/User.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -2462,7 +2473,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63682" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57247" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
